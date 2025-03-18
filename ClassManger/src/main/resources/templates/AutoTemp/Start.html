@@ -41,9 +41,12 @@
     <div class="col-md-3 sidebar">
       <!-- Sidebar content goes here -->
       <ul class="nav flex-column">
-        <li class="nav-item" th:each = "listCategory: ${listCategory}">
-          <a class="nav-link" th:href="@{~/courses/{classLink}(classLink=${listCategory.CatogoryLink})}">My Schedule</a>
+        <li class="nav-item" th:each="listCategory : ${listCategory}">
+          <a class="nav-link" th:href="@{~/courses/{classLink}(classLink=${listCategory.CatogoryLink})}"
+             th:text="${listCategory.Catogory}">
+          </a>
         </li>
+
       </ul>
     </div>
     <div class="col-md-9">
