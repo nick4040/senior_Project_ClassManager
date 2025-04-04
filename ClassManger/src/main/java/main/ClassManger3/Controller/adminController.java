@@ -1,13 +1,10 @@
 package main.ClassManger3.Controller;
 
-import main.ClassManger3.Entity.CourceAssignmentEntity;
-import main.ClassManger3.Entity.CourceEntity;
-import main.ClassManger3.Entity.CourceNavInfoEntity;
-import main.ClassManger3.Repo.CourceAssignmentRepo;
-import main.ClassManger3.Repo.CourceNavRepo;
-import main.ClassManger3.Repo.CourceRepo;
+import main.ClassManger3.Entity.*;
+import main.ClassManger3.Repo.*;
 import main.ClassManger3.Service.RoleService;
 import main.ClassManger3.Service.UpdateClassService;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,6 +33,12 @@ public class adminController {
     @Autowired
     private CourceNavRepo courceNavRepo;
 
+    @Autowired
+    private UserRepo userRepository;
+
+    @Autowired
+    private EnrollmentRepo enrollRepo;
+
     @GetMapping("/adminDashboard")
     public String adminDashboerd(Model model) {
         // You can add any attributes you need to your model
@@ -46,6 +49,40 @@ public class adminController {
     public String adminAssignment(Model model) {
         // You can add any attributes you need to your model
         return "MediaDash/adminViews/adminAssignments"; // This will return the "about.html" template
+    }
+
+
+    @GetMapping("/adminSignUpPage")
+    public String adminSignUpPage(Model model) {
+        model.addAttribute("SignUpForm", new UserEntity());
+        return "MediaDash/adminViews/adminSignUpPage";
+    }
+
+    @PostMapping("/adminSignUpPage")
+    public String processSignUp(@ModelAttribute("SignUpForm") UserEntity user) {
+        userRepository.save(user);  // Save user to database
+        return "redirect:/adminDashboard"; // Redirect to dashboard after successful signup
+    }
+
+    @GetMapping("/adminAddStudent")
+    public String adminAddStudent(Model model) {
+        model.addAttribute("AddStudentForm", new EnrollmentEntity());
+
+
+        List<UserEntity>  userRepos1 = userRepository.findAll();
+        model.addAttribute("AllUsers", userRepos1);
+
+
+        List<CourceEntity> courceRepos1 = courceRepo.findAll();
+        model.addAttribute("AllCource", courceRepos1);
+
+        return "MediaDash/adminViews/adminAddStudent";
+    }
+
+    @PostMapping("/adminAddStudent")
+    public String processAddStudent(@ModelAttribute("AddStudentForm") EnrollmentEntity enrolledStudent) {
+        enrollRepo.save(enrolledStudent);  // Save user to database
+        return "redirect:/adminDashboard"; // Redirect to dashboard after successful signup
     }
 
     @GetMapping("/adminCources")

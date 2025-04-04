@@ -22,7 +22,7 @@
           <a class="nav-link active" href="/adminDashboard">Dashboard</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/adminAssignments">Active Assignment</a>
+          <a class="nav-link" href="/adminAssignment">Active Assignment</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/adminCources">Cources</a>
@@ -37,21 +37,33 @@
           <a class="nav-link" href="/adminAccount">My Account</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/adminUpdateClass">Edit your Classes</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/adminSignUpPage">Sign Up Here</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/adminAddStudent">Add a Student</a>
+          <a class="nav-link" href="/adminUpdateClass">Edit your Classes Category</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/LogOut">Log Out</a>
         </li>
       </ul>
     </div>
-    <div class="col-md-9">
-      <h1>Submission Success</h1>
+    <div class="col-md-9 ">
+      <h1 class="main-header-style">Update your class</h1>
+      <form th:action="@{/adminAddStudent}" th:object="${AddStudentForm}" method="post" class="form-create-activity-class">
+        <div class="form-group">
+          <label for="exampleFormControlSelect1">Select Class</label>
+          <select class="form-control" th:field="*{CourceID}" id="exampleFormControlSelect1">
+            <option value="">Select the class you want</option>
+            <option th:each="AllCource : ${AllCource}" th:value="${AllCource.id}" th:text="${AllCource.class_names}"></option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="exampleFormControlSelect1">Select a User</label>
+          <select class="form-control" th:field="*{studentID}" id="exampleFormControlSelect2">
+            <option value="">Select the user you want</option>
+            <option th:each="AllUsers : ${AllUsers}" th:value="${AllUsers.StudentID}" th:text="${AllUsers.username}"></option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary mb-2">Confirm identity</button>
+      </form>
+      </div>
     </div>
   </div>
 </div>
